@@ -39,10 +39,10 @@ Flask backend (Python) + React frontend with seamless audio pipeline integration
 - scipy
 
 ## Preview
-![image](https://github.com/user-attachments/assets/266e2205-b35d-43d9-afed-f543e32839e6)
+![image]()
 
 ## Installation
-git clone https://github.com/MintFlavor23/ai-music-generator.git
+git clone https://github.com/dadaocao/ai-music-generator.git
 
 ### 2. Backend Requirements
 
