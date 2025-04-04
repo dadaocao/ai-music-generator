@@ -1,20 +1,31 @@
 # AI Lyrics Generator
 
-This project features a Flask backend and a React frontend that generates AI-powered song lyrics and accompaniment based on user input. Users can customize the lyrics and accompaniment by specifying parameters such as music style, theme, length, and structure. Additionally, they can edit the generated lyrics in an integrated editor, copy the text, or export it as a PDF. For accompaniment track, user could download it locally.
 
+This full-stack AI music platform combines a custom-trained lyric generation model with state-of-the-art music synthesis tools. The system features:
+
+🧠 Custom AI Lyrics Engine
+Our proprietary fine-tuned language model generates original song lyrics based on user prompts (artist or title), with real-time editing capabilities.
+
+🎵 Intelligent Music Backing
+Integrated third-party audio models transform lyrics into styled accompaniments matching user-selected genres.
+
+🛠️ Full Creative Control
+
+Lyrics Workshop: Edit generated text with syntax highlighting
+
+Export options: PDF lyrics sheets / WAV audio downloads
+
+Parameter tuning: BPM, key, instrumentation preferences
+
+⚙️ Tech Stack
+Flask backend (Python) + React frontend with seamless audio pipeline integration
 
 ## Developers
 
-- **Tongxi Cui**  
-Contact: tongxi321@gmail.com 
-- **Zheyu Wu**  
-Contact: https://www.linkedin.com/in/robertzheyuwu2001/ 
-- **Xu Zhihui**  
-Contact: xuzhihuieateat@gmail.com
-- **Yifei Shang**  
-Contact: https://www.linkedin.com/in/yifei-s-b3b013221
+- **Ruoming Zhang**  
 - **Sinian Liu**  
-Contact: https://www.linkedin.com/in/sinian-liu/
+- **Yujing Liu**  
+- **Xinyi Wei**  
 
 ## Requirements
 
