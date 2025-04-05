@@ -13,7 +13,7 @@ import zipfile
 app = Flask(__name__)
 CORS(app)
 
-# 解压模型
+# extact the model
 model_dir = "../my_lyrics_model"
 zip_path = "../../../../my_lyrics_model-20250403T000854Z-001.zip"
 
@@ -21,7 +21,7 @@ if not os.path.exists(model_dir):
     with zipfile.ZipFile(zip_path, "r") as zip_ref:
         zip_ref.extractall(model_dir)
 
-# 加载模型
+# load models
 device = "cuda" if torch.cuda.is_available() else "cpu"
 tokenizer = AutoTokenizer.from_pretrained(model_dir)
 lyrics_model = GPT2LMHeadModel.from_pretrained(model_dir).to(device)
@@ -51,10 +51,10 @@ def generate_music_audio(des):
     print("Generating music...")
     start_time = time.time()
 
-    # 输入预处理
+    # Input preprocessing
     inputs = processor(text=[des], padding=True, return_tensors="pt").to(music_model.device)
 
-    # 模型生成
+    # Model generation
     with torch.no_grad():
         audio_tokens = music_model.generate(
             **inputs,
@@ -67,7 +67,7 @@ def generate_music_audio(des):
 
     print(f"Music generated in {time.time() - start_time:.2f} seconds")
 
-    # 张量处理
+    # Tensor processing
     if isinstance(audio_tokens, torch.Tensor):
         audio_array = audio_tokens[0].cpu().numpy()
     else:
@@ -76,7 +76,7 @@ def generate_music_audio(des):
     if audio_array.size == 0:
         raise ValueError("Generated audio is empty")
 
-    # 音频后处理
+    # Audio post-processing
     audio_array = np.clip(audio_array, -1.0, 1.0)
     if len(audio_array.shape) > 1:
         audio_array = np.mean(audio_array, axis=0)
@@ -84,11 +84,11 @@ def generate_music_audio(des):
     scaled_audio = (audio_array * 32767).astype(np.int16)
     sampling_rate = min(max(getattr(music_model.config, "sampling_rate", 32000), 1), 65535)
 
-    # 写入 WAV 文件
+    # Write to WAV file
     save_path = os.path.join(os.getcwd(), "generated_music.wav")
     scipy.io.wavfile.write(save_path, rate=sampling_rate, data=scaled_audio)
 
-    # 编码为 Base64
+    # Encode to Base64
     with open(save_path, 'rb') as f:
         wav_data = f.read()
 

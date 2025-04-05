@@ -67,7 +67,7 @@ const MusicGenerator = ({ description }) => {
         throw new Error(data.error);
       }
 
-      // 创建音频从base64数据
+      // Create audio from base64 data 
       const audioData = `data:audio/wav;base64,${data.audio_data_base64}`;
       setAudioSrc(audioData);
     } catch (err) {
@@ -106,7 +106,7 @@ const MusicGenerator = ({ description }) => {
     document.body.removeChild(a);
   };
 
-  // Format time display (秒 -> MM:SS)
+  // Format time display - MM:SS
   const formatTime = (time) => {
     if (isNaN(time)) return '00:00';
     const minutes = Math.floor(time / 60);
@@ -174,7 +174,7 @@ const MusicGenerator = ({ description }) => {
             </button>
           </div>
 
-          {/* 音波图或其他视觉元素可以在这里添加 */}
+          {/* Waveform or other visual elements can be added here */}
           <div className="h-10 bg-gray-50 rounded-md overflow-hidden">
             <div
               className="h-full bg-gradient-to-r from-gray-200 to-green-100"
