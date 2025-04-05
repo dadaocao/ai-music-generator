@@ -13,7 +13,7 @@ Integrated third-party audio models transform lyrics into styled accompaniments 
 
 Lyrics Workshop: Edit generated text with syntax highlighting
 
-Export options: PDF lyrics sheets / WAV audio downloads
+Export options: WAV audio downloads
 
 Parameter tuning: BPM, key, instrumentation preferences
 
@@ -39,7 +39,7 @@ Flask backend (Python) + React frontend with seamless audio pipeline integration
 - scipy
 
 ## Preview
-![image]()
+![image](/readme_demo.jpg)
 
 ## Installation
 git clone https://github.com/dadaocao/ai-music-generator.git

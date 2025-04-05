@@ -10,12 +10,14 @@ const MusicGenerator = ({ description }) => {
   const [duration, setDuration] = useState(0);
   const audioRef = useRef(null);
 
+  // Music is automatically generated when the description changes and is not empty
   useEffect(() => {
     if (description && description.trim()) {
       generateMusic();
     }
-  }, []);
+  }, [description]);
 
+  // Update progress bar
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
@@ -46,7 +48,7 @@ const MusicGenerator = ({ description }) => {
       setIsLoading(true);
       setError('');
       setAudioSrc('');
-      
+
       const response = await fetch('http://127.0.0.1:5000/generate-music', {
         method: 'POST',
         headers: {
@@ -60,11 +62,12 @@ const MusicGenerator = ({ description }) => {
       }
 
       const data = await response.json();
-      
+
       if (data.error) {
         throw new Error(data.error);
       }
 
+      // 创建音频从base64数据
       const audioData = `data:audio/wav;base64,${data.audio_data_base64}`;
       setAudioSrc(audioData);
     } catch (err) {
@@ -77,13 +80,13 @@ const MusicGenerator = ({ description }) => {
 
   const togglePlayPause = () => {
     if (!audioRef.current) return;
-    
+
     if (isPlaying) {
       audioRef.current.pause();
     } else {
       audioRef.current.play();
     }
-    
+
     setIsPlaying(!isPlaying);
   };
 
@@ -94,7 +97,7 @@ const MusicGenerator = ({ description }) => {
 
   const downloadAudio = () => {
     if (!audioSrc) return;
-    
+
     const a = document.createElement('a');
     a.href = audioSrc;
     a.download = 'generated-music.wav';
@@ -103,6 +106,7 @@ const MusicGenerator = ({ description }) => {
     document.body.removeChild(a);
   };
 
+  // Format time display (秒 -> MM:SS)
   const formatTime = (time) => {
     if (isNaN(time)) return '00:00';
     const minutes = Math.floor(time / 60);
@@ -110,6 +114,7 @@ const MusicGenerator = ({ description }) => {
     return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
   };
 
+  // Process progress bar drag
   const handleProgressChange = (e) => {
     const newTime = e.target.value;
     setCurrentTime(newTime);
@@ -127,13 +132,14 @@ const MusicGenerator = ({ description }) => {
         </div>
       ) : audioSrc ? (
         <div className="flex flex-col">
-          <audio 
-            ref={audioRef} 
-            src={audioSrc} 
+          <audio
+            ref={audioRef}
+            src={audioSrc}
             onEnded={handleAudioEnded}
             className="hidden"
           />
-          
+
+          {/* Playback control and progress bar */}
           <div className="flex items-center space-x-2 mb-2">
             <button
               onClick={togglePlayPause}
@@ -145,7 +151,7 @@ const MusicGenerator = ({ description }) => {
                 <Play className="w-6 h-6 text-gray-800" />
               )}
             </button>
-            
+
             <div className="flex-1 flex items-center space-x-2">
               <span className="text-xs text-gray-500 w-10">{formatTime(currentTime)}</span>
               <input
@@ -158,7 +164,7 @@ const MusicGenerator = ({ description }) => {
               />
               <span className="text-xs text-gray-500 w-10">{formatTime(duration)}</span>
             </div>
-            
+
             <button
               onClick={downloadAudio}
               className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors"
@@ -167,10 +173,11 @@ const MusicGenerator = ({ description }) => {
               <Download className="w-5 h-5 text-gray-700" />
             </button>
           </div>
-          
+
+          {/* 音波图或其他视觉元素可以在这里添加 */}
           <div className="h-10 bg-gray-50 rounded-md overflow-hidden">
-            <div 
-              className="h-full bg-gradient-to-r from-gray-200 to-green-100" 
+            <div
+              className="h-full bg-gradient-to-r from-gray-200 to-green-100"
               style={{ width: `${(currentTime / duration) * 100 || 0}%`, transition: 'width 0.1s linear' }}
             ></div>
           </div>
@@ -180,16 +187,15 @@ const MusicGenerator = ({ description }) => {
           <button
             onClick={generateMusic}
             disabled={isLoading || !description}
-            className={`flex items-center px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 transition-colors ${
-              isLoading || !description ? 'opacity-50 cursor-not-allowed' : ''
-            }`}
+            className={`flex items-center px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 transition-colors ${isLoading || !description ? 'opacity-50 cursor-not-allowed' : ''
+              }`}
           >
             Generate Accompaniment
             <RefreshCw className="w-4 h-4 ml-2" />
           </button>
         </div>
       )}
-      
+
       {error && (
         <div className="mt-2 p-2 bg-red-50 text-red-500 rounded text-sm">
           {error}
