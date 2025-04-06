@@ -38,7 +38,7 @@ Flask backend (Python) + React frontend with seamless audio pipeline integration
 - scipy
 
 ## Preview
-![alt text](image.png)
+![alt text](/readme_demo.jpg)
 
 ## Installation
 
